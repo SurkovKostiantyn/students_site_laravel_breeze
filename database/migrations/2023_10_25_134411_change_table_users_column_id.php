@@ -24,7 +24,7 @@ return new class extends Migration
     {
         // rollback changes
         Schema::table('users', function (Blueprint $table) {
-            $table->string('id')->change();
+            $table->bigInteger('id')->change();
         });
     }
 };

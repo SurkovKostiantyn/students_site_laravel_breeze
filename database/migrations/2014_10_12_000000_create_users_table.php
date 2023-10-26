@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,6 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        DB::raw('SET FOREIGN_KEY_CHECKS=0');
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
