@@ -9,6 +9,20 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 
 use students_site;
 
+
+CREATE TABLE IF NOT EXISTS `students_site`.`specialities` (
+     `spec_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     `full_name` VARCHAR(128) NOT NULL,
+     `short_name` VARCHAR(45) NOT NULL,
+     `code` VARCHAR(45) NOT NULL,
+     `info` TEXT NULL,
+     PRIMARY KEY (`spec_id`),
+     UNIQUE INDEX `spec_id_UNIQUE` (`spec_id` ASC) VISIBLE,
+     UNIQUE INDEX `full_name_UNIQUE` (`full_name` ASC) VISIBLE,
+     UNIQUE INDEX `short_name_UNIQUE` (`short_name` ASC) VISIBLE,
+     UNIQUE INDEX `code_UNIQUE` (`code` ASC) VISIBLE)
+    ENGINE = InnoDB;
+
 -- -----------------------------------------------------
 -- Table `students_site`.`admins`
 -- -----------------------------------------------------
@@ -72,20 +86,21 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `students_site`.`groups` ;
 
 CREATE TABLE IF NOT EXISTS `students_site`.`groups` (
-  `group_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `group_name` VARCHAR(128) NULL,
-  `info` TEXT NULL,
-  `depart_id` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`group_id`),
-  UNIQUE INDEX `group_id_UNIQUE` (`group_id` ASC) VISIBLE,
-  UNIQUE INDEX `depart_name_UNIQUE` (`group_name` ASC) VISIBLE,
-  UNIQUE INDEX `depart_id_UNIQUE` (`depart_id` ASC) VISIBLE,
-  CONSTRAINT `fk_group_depart_id`
-    FOREIGN KEY (`depart_id`)
-    REFERENCES `students_site`.`departments` (`depart_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
+    `group_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `group_name` VARCHAR(128) NULL,
+    `info` TEXT NULL,
+    `depart_id` INT UNSIGNED NOT NULL,
+    `year` YEAR NOT NULL,
+    PRIMARY KEY (`group_id`),
+    UNIQUE INDEX `depart_id_UNIQUE` (`group_id` ASC) VISIBLE,
+    UNIQUE INDEX `depart_name_UNIQUE` (`group_name` ASC) VISIBLE,
+    UNIQUE INDEX `depart_id_UNIQUE` (`depart_id` ASC) VISIBLE,
+    CONSTRAINT `fk_group_depart_id`
+       FOREIGN KEY (`depart_id`)
+           REFERENCES `students_site`.`departments` (`depart_id`)
+           ON DELETE CASCADE
+           ON UPDATE CASCADE)
+    ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `students_site`.`headmans`
