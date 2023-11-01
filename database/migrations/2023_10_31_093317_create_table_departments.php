@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // change id column to type integer
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('id')->change();
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id('depart_id')->autoIncrement();
+            $table->string('depart_name')->unique();
+            $table->string('info')->nullable();
         });
     }
 
@@ -22,9 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // rollback changes
-        Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('id')->change();
-        });
+        Schema::dropIfExists('departments');
     }
 };

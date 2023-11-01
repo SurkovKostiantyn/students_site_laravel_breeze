@@ -15,8 +15,8 @@ return new class extends Migration
         DB::raw('SET FOREIGN_KEY_CHECKS=0');
 
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+            $table->id()->autoIncrement();
+            $table->string('login');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
