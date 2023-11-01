@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('curators', function (Blueprint $table) {
             $table->id('curator_id');
+            $table->unsignedBigInteger('user_id')->nullable('false');
             $table->unsignedBigInteger('teacher_id')->nullable('false');
             $table->unsignedBigInteger('group_id')->nullable('false');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('user_id')
+                ->on('user_profiles')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('teacher_id')
                 ->references('teacher_id')
