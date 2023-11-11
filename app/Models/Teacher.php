@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Teacher extends Model
 {
@@ -14,17 +15,12 @@ class Teacher extends Model
     public $timestamps = true; // Включити поля "created_at" і "updated_at"
 
     protected $fillable = [
-        'profile_id',
+        'id',
         'depart_id',
     ];
 
-    public function userProfile(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User_profile::class, 'profile_id');
-    }
-
-    public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Department::class, 'depart_id');
+        return $this->belongsTo(User::class, 'id');
     }
 }

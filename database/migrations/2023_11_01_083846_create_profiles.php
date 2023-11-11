@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('librarians', function (Blueprint $table) {
-            $table->id('librarian_id');
-            $table->unsignedBigInteger('id')->nullable('false');
-            $table->timestamps();
+        Schema::create('profiles', function (Blueprint $table) {
+            $table->id('profile_id'); // Автоінкрементне поле, що відповідає `profile_id`
+            $table->unsignedBigInteger('id');
+            $table->string('first_name', 255)->nullable();
+            $table->string('last_name', 255)->nullable();
 
             $table->foreign('id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+
+            $table->timestamps();
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('librarians');
+        Schema::dropIfExists('profiles');
     }
 };

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Curator extends Model
 {
@@ -14,17 +15,13 @@ class Curator extends Model
     public $timestamps = true; // Включити поля "created_at" і "updated_at"
 
     protected $fillable = [
+        'id',
         'teacher_id',
         'group_id',
     ];
 
-    public function teacher(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Teacher::class, 'teacher_id');
-    }
-
-    public function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Group::class, 'group_id');
+        return $this->belongsTo(User::class, 'id');
     }
 }

@@ -14,11 +14,11 @@ class Librarian extends Model
     public $timestamps = true; // Включити поля "created_at" і "updated_at"
 
     protected $fillable = [
-        'profile_id',
+        'id',
     ];
 
-    public function userProfile(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(User_profile::class, 'profile_id');
+        return $this->belongsTo(User::class, 'id');
     }
 }

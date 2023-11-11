@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id('admin_id');
-            $table->unsignedBigInteger('user_id')->nullable('false');
-            $table->timestamps();
+            $table->unsignedBigInteger('id')->nullable('false');
+            $table->timestamps(); // TODO: useCurrent()?
 
-            $table->foreign('user_id')
-                ->references('user_id')
-                ->on('user_profiles')
+            $table->foreign('id')
+                ->references('id')
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
