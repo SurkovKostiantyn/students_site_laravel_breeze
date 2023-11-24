@@ -2,6 +2,7 @@
 FROM php:8.2-fpm
 
 # Update packages and install composer and PHP dependencies
+# Update packages and install composer and PHP dependencies
 RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
@@ -12,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -27,18 +29,33 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
+# Copy existing application directory contents to the working directory
+COPY . /var/www
+
+# Run composer update
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN composer update --no-interaction --no-ansi
+
+# Change the permissions of the artisan file to make it executable
+RUN chmod +x artisan
+
 # Remove default server definition and add our own
 RUN rm -rf /var/www/html
 
 # Prevent the container from running as root
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
-# Copy existing application directory contents to the working directory
-COPY . /var/www
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # Change the permissions of the working directory
 RUN chown -R www-data:www-data /var/www
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
+
+COPY entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]

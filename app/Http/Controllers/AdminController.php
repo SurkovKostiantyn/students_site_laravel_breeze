@@ -20,66 +20,30 @@ class AdminController extends Controller
         // $admins - list of users from table admins. Also need to join profiles
         // $users - list of users from table users. Also need to join profiles
         // $notAdmins - list of users from table users that not present in admins table. Also need to join profiles
+
         $admins = Admin::with(['user.profile'])->get();
-        // how to get profile.first_name and profile.last_name from admins?
-        $f_names = [];
-        $l_names = [];
-        echo '<table>';
-        echo '<table>';
-        echo '<th>';
-        echo '<td>First name</td>';
-        echo '<td>Last name</td>';
-        echo '<td>Email</td>';
-        echo '</th>';
-        foreach ($admins as $admin) {
-            $f_names[] = $admin->user->profile->first_name;
-            $l_names[] = $admin->user->profile->last_name;
-            $email = $admin->user->email;
-            echo '<tr>';
-            echo '<td>' . $admin->user->profile->first_name . '</td>';
-            echo '<td>' . $admin->user->profile->last_name . '</td>';
-            echo '<td>' . $admin->user->email . '</td>';
-        }
-        echo '</table>';
-        echo '<hr>';
+        //$admin->user->profile->first_name
+        //$admin->user->profile->last_name
+        //$admin->user->email
 
         // need to get data from this users
         $usersNotAdmins = User::whereDoesntHave('admin')->with(['profile'])->get();
-        $f_names = [];
-        $l_names = [];
-        echo '<table>';
-        echo '<th>';
-        echo '<td>First name</td>';
-        echo '<td>Last name</td>';
-        echo '<td>Email</td>';
-        echo '</th>';
-        foreach ($usersNotAdmins as $user) {
-            $f_names[] = $user->profile->first_name;
-            $l_names[] = $user->profile->last_name;
-            $email = $user->email;
-            echo '<tr>';
-            echo '<td>' . $user->profile->first_name . '</td>';
-            echo '<td>' . $user->profile->last_name . '</td>';
-            echo '<td>' . $user->email . '</td>';
-        }
-        echo '</table>';
-        exit();
 
         $users = User::with(['profile'])->get();
-        $notAdmins = User::whereNotIn('id', function ($query) {
-            $query->select('id')->from('admins');
-        })->get();
 
+        foreach ($users as $user) {
+            echo $user->profile->first_name.' '.$user->profile->last_name.' '.$user->email.'<br>';
+        }
+        echo '<hr>';
+        foreach ($usersNotAdmins as $user) {
+            echo $user->profile->first_name.' '.$user->profile->last_name.' '.$user->email.'<br>';
+        }
+        echo '<hr>';
+        foreach ($admins as $admin) {
+            echo $admin->user->profile->first_name.' '.$admin->user->profile->last_name.' '.$admin->user->email.'<br>';
+        }
 
-//        $admins = Admin::with(['user.profile'])->get();
-//        $users = Profile::all();
-//        // need to get all users that not present in admins table
-//        $list = User::whereNotIn('id', function ($query) {
-//            $query->select('id')->from('admins');
-//        })->get();
-
-        // $firstName = $admin->user->profile->first_name;
-        // $lastName = $admin->user->profile->last_name;
+        exit();
 
         return view('admin', [
             'admins' => $admins,
