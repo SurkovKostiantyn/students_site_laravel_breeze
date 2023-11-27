@@ -2,7 +2,6 @@
 FROM php:8.2-fpm
 
 # Update packages and install composer and PHP dependencies
-# Update packages and install composer and PHP dependencies
 RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \

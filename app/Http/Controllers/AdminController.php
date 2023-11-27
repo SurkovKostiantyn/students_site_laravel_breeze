@@ -13,34 +13,29 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+/**
+ * Class AdminController
+ *
+ * @package App\Http\Controllers
+ *
+ * @var $admins - list of users from table admins. Also need to join profiles
+ * @var $users - list of users from table users. Also need to join profiles
+ * @var $notAdmins - list of users from table users that not present in admins table. Also need to join profiles
+ * how to get user from array:
+ * user->profile->first_name
+ * admin->user->profile->last_name
+ * admin->user->email
+ */
 class AdminController extends Controller
 {
     public function index(Request $request): View
     {
-        // $admins - list of users from table admins. Also need to join profiles
-        // $users - list of users from table users. Also need to join profiles
-        // $notAdmins - list of users from table users that not present in admins table. Also need to join profiles
-
         $admins = Admin::with(['user.profile'])->get();
-        //$admin->user->profile->first_name
-        //$admin->user->profile->last_name
-        //$admin->user->email
-
-        // need to get data from this users
         $usersNotAdmins = User::whereDoesntHave('admin')->with(['profile'])->get();
-
         $users = User::with(['profile'])->get();
 
         foreach ($users as $user) {
-            echo $user->profile->first_name.' '.$user->profile->last_name.' '.$user->email.'<br>';
-        }
-        echo '<hr>';
-        foreach ($usersNotAdmins as $user) {
-            echo $user->profile->first_name.' '.$user->profile->last_name.' '.$user->email.'<br>';
-        }
-        echo '<hr>';
-        foreach ($admins as $admin) {
-            echo $admin->user->profile->first_name.' '.$admin->user->profile->last_name.' '.$admin->user->email.'<br>';
+            echo $user->profile->first_name . ' ' . $user->profile->last_name . ' ' . $user->email . '<br>';
         }
 
         exit();
@@ -48,7 +43,7 @@ class AdminController extends Controller
         return view('admin', [
             'admins' => $admins,
             'users' => $users,
-            'list' => $list,
+            'list' => $usersNotAdmins,
         ]);
     }
 
