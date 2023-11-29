@@ -56,5 +56,7 @@ RUN chown -R www-data:www-data /var/www
 EXPOSE 9000
 
 COPY entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["entrypoint.sh"]
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 CMD ["php-fpm"]
