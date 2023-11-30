@@ -33,7 +33,7 @@ COPY . /var/www
 
 # Run composer update
 ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN composer update --no-interaction --no-ansi
+RUN composer install --no-interaction --no-ansi
 
 # Change the permissions of the artisan file to make it executable
 RUN chmod +x artisan
@@ -54,9 +54,4 @@ RUN chown -R www-data:www-data /var/www
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
-
-COPY entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
 CMD ["php-fpm"]
