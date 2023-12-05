@@ -15,6 +15,7 @@
                     <table class="table-auto w-full">
                         <thead>
                         <tr>
+                            <th class="px-4 py-2 text-white">ID</th>
                             <th class="px-4 py-2 text-white">Last name</th>
                             <th class="px-4 py-2 text-white">First name</th>
                             <th class="px-4 py-2 text-white">Email</th>
@@ -23,8 +24,9 @@
                         <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td class="border px-4 py-2 text-white">{{ $user->last_name }}</td>
-                                <td class="border px-4 py-2 text-white">{{ $user->first_name }}</td>
+                                <td class="border px-4 py-2 text-white">{{ $user->id }}</td>
+                                <td class="border px-4 py-2 text-white">{{ $user->profile->first_name }}</td>
+                                <td class="border px-4 py-2 text-white">{{ $user->profile->last_name }}</td>
                                 <td class="border px-4 py-2 text-white">{{ $user->email }}</td>
                             </tr>
                         @endforeach
@@ -40,6 +42,7 @@
                     <table class="table-auto w-full">
                         <thead>
                         <tr>
+                            <th class="px-4 py-2 text-white">ID</th>
                             <th class="px-4 py-2 text-white">First name</th>
                             <th class="px-4 py-2 text-white">Last name</th>
                             <th class="px-4 py-2 text-white">Email</th>
@@ -48,9 +51,10 @@
                         <tbody>
                         @foreach($admins as $admin)
                             <tr>
+                                <td class="border px-4 py-2 text-white">{{ $admin->user->id }}</td>
                                 <td class="border px-4 py-2 text-white">{{ $admin->user->profile->first_name }}</td>
                                 <td class="border px-4 py-2 text-white">{{ $admin->user->profile->last_name }}</td>
-                                <td class="border px-4 py-2 text-white">{{ $admin->user->profile->email }}</td>
+                                <td class="border px-4 py-2 text-white">{{ $admin->user->email }}</td>
                             </tr>
                         @endforeach
                         </tbody>

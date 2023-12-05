@@ -23,4 +23,9 @@ class Admin extends Model
     {
         return $this->belongsTo(User::class, 'id');
     }
+
+    public function isUserAdmin($userId): bool
+    {
+        return Admin::where('id', $userId)->exists();
+    }
 }

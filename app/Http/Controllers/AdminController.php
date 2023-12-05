@@ -34,12 +34,6 @@ class AdminController extends Controller
         $usersNotAdmins = User::whereDoesntHave('admin')->with(['profile'])->get();
         $users = User::with(['profile'])->get();
 
-        foreach ($users as $user) {
-            echo $user->profile->first_name . ' ' . $user->profile->last_name . ' ' . $user->email . '<br>';
-        }
-
-        exit();
-
         return view('admin', [
             'admins' => $admins,
             'users' => $users,

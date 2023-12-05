@@ -22,6 +22,7 @@ use App\Models\Curator;
  * @property string $email
  *
  * @property \App\Models\Admin $admin
+ * @method static whereDoesntHave(string $string)
  */
 class User extends Authenticatable
 {

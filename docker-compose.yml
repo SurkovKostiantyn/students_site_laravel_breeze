@@ -7,6 +7,9 @@ services:
             context: .
             dockerfile: Dockerfile
         image: laravelapp
+        dns:
+            - 8.8.8.8
+            - 8.8.4.4
         container_name: app
         restart: unless-stopped
         tty: true
@@ -40,6 +43,14 @@ services:
             - dbdata:/var/lib/mysql/
         networks:
             - app-network
+    # adminer
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - "8080:8080"
+        networks:
+            - app-network
 
     #Nginx Service
     webserver:
@@ -53,6 +64,7 @@ services:
         volumes:
             - ./:/var/www
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./docker/certs:/etc/ssl/certs:ro
         networks:
             - app-network
 
